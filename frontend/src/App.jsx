@@ -9,8 +9,7 @@ import Tasks from './pages/Tasks';
 function App() {
   return (
     <div>
-      <h1>Task Management System</h1>
-      <Tasks />
+  <Tasks />
     </div>
   );
 }

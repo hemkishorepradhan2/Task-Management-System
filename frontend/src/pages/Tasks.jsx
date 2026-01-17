@@ -16,11 +16,46 @@ const Tasks = () => {
   }, []);
 
   return (
-    <>
-      <TaskForm refreshTasks={fetchTasks} />
-      <TaskList tasks={tasks} refreshTasks={fetchTasks} />
-    </>
+    <div style={containerStyle}>
+      <h1 style={headerStyle}>Task Management System</h1>
+
+      <div style={formCardStyle}>
+        <TaskForm refreshTasks={fetchTasks} />
+      </div>
+
+      <div style={listCardStyle}>
+        <TaskList tasks={tasks} refreshTasks={fetchTasks} />
+      </div>
+    </div>
   );
+};
+
+const containerStyle = {
+  maxWidth: "800px",
+  margin: "0 auto",
+  padding: "20px",
+  fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+};
+
+const headerStyle = {
+  textAlign: "center",
+  marginBottom: "20px",
+  color: "#333",
+};
+
+const formCardStyle = {
+  backgroundColor: "#f9f9f9",
+  padding: "20px",
+  borderRadius: "8px",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+  marginBottom: "30px",
+};
+
+const listCardStyle = {
+  backgroundColor: "#fff",
+  padding: "20px",
+  borderRadius: "8px",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
 };
 
 export default Tasks;
