@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
-SQLALCHEMY_DATABASE_URL="sqlite:///./tasks.db"
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,connect_args={"check_same_thread": False}
+SQLALCHEMY_DATABASE_URL = "sqlite:///./tasks.db"
 
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False} 
 )
 
-Base=declarartive_base()
-
+Base = declarative_base() 
