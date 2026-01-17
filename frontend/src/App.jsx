@@ -2,20 +2,17 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import TaskForm from './components/TaskForm'
+import Tasks from './pages/Tasks';
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>
-        Welcome to Task Management System
-      </h1>
-
-      <TaskForm/>
-    </>
-  )
+    <div>
+      <h1>Task Management System</h1>
+      <Tasks />
+    </div>
+  );
 }
 
 export default App
