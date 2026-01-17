@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime,Boolean
+from sqlalchemy import Column, Integer, String, Date,Boolean
 from database.connection import Base
 
 class Task(Base):
@@ -7,5 +7,5 @@ class Task(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     status = Column(String, nullable=False, default="PENDING")
-    due_date = Column(DateTime, nullable=True)
+    due_date = Column(Date, nullable=True)
     is_deleted = Column(Boolean, nullable=False, default=False)
