@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createTask } from "../api/taskApi";
-
+import '../index.css';
 const TaskForm = ({ refreshTasks }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -35,12 +35,12 @@ const TaskForm = ({ refreshTasks }) => {
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "20px auto" }}>
-      <h3>Create Task</h3>
+      <h3 style={headerStyle}>Create Task</h3>
 
       {message && <p style={{ color: "green" }}>{message}</p>}
 
       <div style={{ marginBottom: "10px" }}>
-        <label htmlFor="title">Title *</label>
+        <label htmlFor="title">Title <span style={{color:"red"}}>*</span></label>
         <input
           id="title"
           type="text"
@@ -74,22 +74,17 @@ const TaskForm = ({ refreshTasks }) => {
         />
       </div>
 
-      <button
+      <button className="submitButton"
         type="submit"
-        disabled={loading}
-        style={{
-          width: "100%",
-          padding: "10px",
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
+        disabled={loading}>
         {loading ? "Adding..." : "Add Task"}
       </button>
     </form>
   );
 };
+const headerStyle = {
+  
+  
+}
 
 export default TaskForm;

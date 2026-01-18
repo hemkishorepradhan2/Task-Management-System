@@ -17,7 +17,7 @@ const Tasks = () => {
 
   return (
     <div style={containerStyle}>
-      <h1 style={headerStyle}>Task Management System</h1>
+      <h1 style={headerStyle}>Welcome To Task Management System</h1>
 
       <div style={formCardStyle}>
         <TaskForm refreshTasks={fetchTasks} />
@@ -40,7 +40,9 @@ const containerStyle = {
 const headerStyle = {
   textAlign: "center",
   marginBottom: "20px",
-  color: "#333",
+  color: "#fff",
+  backgroundColor:"#333",
+  border: "4px solid lightblue"
 };
 
 const formCardStyle = {
