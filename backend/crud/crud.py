@@ -48,3 +48,18 @@ def soft_delete_task(db: Session, task_id: int) -> Optional[Task]:
     db.commit()
     db.refresh(task)
     return task
+
+
+def getdeletedtasks(db:Session)->List[Task]:
+    return db.query(Task).filter(Task.is_deleted == True).all()
+
+
+
+
+
+
+
+
+
+
+
