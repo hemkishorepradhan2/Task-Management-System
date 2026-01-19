@@ -1,4 +1,4 @@
-import { getDeletedTasks /* restoreTask */ } from "../api/taskApi";
+import {showtDeletedTasks } from "../api/taskApi";
 import { useState } from "react";
 
 const statusColors = {
@@ -17,7 +17,7 @@ const DeletedTaskList = () => {
     setError("");
 
     try {
-      const data = await getDeletedTasks();
+      const data = await showtDeletedTasks();
       setTasks(data);
     } catch (err) {
       console.error(err);

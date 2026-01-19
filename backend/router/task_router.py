@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from database.session import get_db
 from schemas.task import CreateTask, UpdateTask, TaskResponse
-from crud.crud import create_task, read_tasks, read_task, update_task, soft_delete_task
+from crud.crud import create_task, read_tasks, read_task, update_task, soft_delete_task,getdeletedtasks
 from typing import List
 
 router = APIRouter(
@@ -17,6 +17,11 @@ def create_new_task(task_in: CreateTask, db: Session = Depends(get_db)):
 @router.get("", response_model=List[TaskResponse])
 def get_all_tasks(db: Session = Depends(get_db)):
     return read_tasks(db)
+
+
+@router.get("/showdeletedtasks",response_model=List[TaskResponse])
+def get_deleted_task(db:Session=Depends(get_db)):
+    return getdeletedtasks(db)
 
 @router.get("/{task_id}", response_model=TaskResponse)
 def get_task_by_id(task_id: int, db: Session = Depends(get_db)):
