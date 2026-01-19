@@ -17,7 +17,7 @@ def get_all_tasks(db: Session = Depends(get_db)):
 @router.get("/search",response_model=List[TaskResponse])
 def search_title(searchtaskname:str,db:Session=Depends(get_db))->List[TaskResponse]:
     
-    result=searchtaskbytitle(db,search_task_title=searchtaskname)
+    result=searchtaskbytitle(db,search_task_title=searchtaskname.strip())
     if not result:
         raise HTTPException(status_code=404,detail="Task not found or the resource must have been deleted.")
     return result
