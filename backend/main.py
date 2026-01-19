@@ -6,7 +6,7 @@ from router.task_router import router as task_router
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Task Management API")
+app = FastAPI(title="Task Management System")
 
 
 origins = [
