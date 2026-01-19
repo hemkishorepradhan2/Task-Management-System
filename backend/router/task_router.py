@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from database.session import get_db
 from schemas.task import CreateTask, TaskBase, UpdateTask, TaskResponse
-from crud.crud import create_task, read_tasks, read_task, update_task, soft_delete_task,getdeletedtasks,searchtaskbytitle
+from crud.crud import create_task, read_tasks, read_task, update_task, soft_delete_task,getdeletedtasks,filter_tasks
 from typing import List
 
 router = APIRouter(
@@ -14,13 +14,20 @@ router = APIRouter(
 def get_all_tasks(db: Session = Depends(get_db)):
     return read_tasks(db)
 
-@router.get("/search",response_model=List[TaskBase])
-def search_title(searchtaskname:str,db:Session=Depends(get_db))->List[TaskBase]:
-    
-    result=searchtaskbytitle(db,search_task_title=searchtaskname.strip())
-    if not result:
-        raise HTTPException(status_code=404,detail="Task not found or the resource must have been deleted.")
-    return result
+
+@router.get("/filter", response_model=List[TaskResponse])
+def filter_tasks_api(
+    search: str | None = None,
+    status: str | None = None,
+    db: Session = Depends(get_db)
+):
+    tasks = filter_tasks(db, search=search, status=status)
+    if not tasks:
+        raise HTTPException(
+            status_code=404,
+            detail="No tasks found"
+        )
+    return tasks
 
 @router.get("/showdeletedtasks",response_model=List[TaskResponse])
 def get_deleted_task(db:Session=Depends(get_db)):

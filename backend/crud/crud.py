@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from models.task import Task
 from schemas.task import CreateTask, UpdateTask
@@ -54,12 +55,25 @@ def getdeletedtasks(db:Session)->List[Task]:
     return db.query(Task).filter(Task.is_deleted == True).all()
 
 
-def searchtaskbytitle(db:Session,search_task_title:str)->List[Task]:
-    return db.query(Task).filter(
-    Task.title.ilike(f"%{search_task_title.strip()}%"),
-    Task.is_deleted == False  
-).all()
-   
+def filter_tasks(
+    db: Session,
+    search: str | None = None,
+    status: str | None = None
+):
+    query = db.query(Task).filter(Task.is_deleted == False)
+
+    if search:
+        query = query.filter(
+            or_(
+                Task.title.ilike(f"%{search}%"),
+                Task.description.ilike(f"%{search}%")
+            )
+        )
+
+    if status:
+        query = query.filter(Task.status == status)
+
+    return query.all()
 
 
 

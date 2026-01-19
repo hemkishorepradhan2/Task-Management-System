@@ -1,45 +1,76 @@
 import React, { useState } from "react";
-import { searchByTitle } from "../api/taskApi";
+import { filterTasks } from "../api/taskApi";
 
 const Search = () => {
-  const [searchTitle, setSearchTitle] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [status, setStatus] = useState("");
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     try {
-      setError(""); 
-      const response = await searchByTitle(searchTitle);
+      setLoading(true);
+      setError("");
+
+      const response = await filterTasks({
+        search: searchText,
+        status: status
+      });
+
       setResults(response.data);
     } catch (err) {
       console.error(err);
-      setError("Something went wrong while fetching data.");
+      setResults([]);
+      setError("No tasks found.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div style={styles.searchContainer}>
-      <h2 style={styles.heading}>Search by Title</h2>
+      <h2 style={styles.heading}>Search & Filter Tasks</h2>
+
       <div style={styles.searchBar}>
         <input
           type="text"
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-          placeholder="Enter title..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          placeholder="Search title or description..."
           style={styles.input}
         />
-        <button onClick={handleSearch} style={styles.button}>Search</button>
+
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          style={styles.select}
+        >
+          <option value="">All Status</option>
+          <option value="PENDING">PENDING</option>
+          <option value="INPROGRESS">INPROGRESS</option>
+          <option value="COMPLETED">COMPLETED</option>
+        </select>
+
+        <button onClick={handleSearch} style={styles.button}>
+          Search
+        </button>
       </div>
+
+      {loading && <p style={styles.info}>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
+
       <ul style={styles.resultsList}>
         {results.length > 0 ? (
-          results.map((item, index) => (
-            <li key={index} style={styles.resultItem}>
-              {item.searchtaskname || JSON.stringify(item)}
+          results.map((task) => (
+            <li key={task.id} style={styles.resultItem}>
+              <strong>{task.title}</strong>
+              <p>{task.description || "No description"}</p>
+              <small>Status: {task.status}</small>
             </li>
           ))
         ) : (
-          <p style={styles.noResults}>No results yet.</p>
+          !loading && <p style={styles.noResults}>No results yet.</p>
         )}
       </ul>
     </div>
@@ -48,18 +79,16 @@ const Search = () => {
 
 const styles = {
   searchContainer: {
-    maxWidth: "600px",
+    maxWidth: "700px",
     margin: "40px auto",
     padding: "20px",
     backgroundColor: "#f9f9f9",
     borderRadius: "8px",
-    boxShadow: "0 0 8px rgba(0,0,0,0.1)",
-    fontFamily: "Arial, sans-serif"
+    boxShadow: "0 0 8px rgba(0,0,0,0.1)"
   },
   heading: {
     textAlign: "center",
-    marginBottom: "20px",
-    color: "#333"
+    marginBottom: "20px"
   },
   searchBar: {
     display: "flex",
@@ -68,24 +97,27 @@ const styles = {
   },
   input: {
     flex: 1,
-    padding: "8px 12px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
+    padding: "8px",
+    fontSize: "16px"
+  },
+  select: {
+    padding: "8px",
     fontSize: "16px"
   },
   button: {
     padding: "8px 16px",
-    border: "none",
     backgroundColor: "#007bff",
-    color: "white",
-    fontSize: "16px",
-    borderRadius: "4px",
+    color: "#fff",
+    border: "none",
     cursor: "pointer"
   },
   error: {
     color: "red",
-    marginBottom: "10px",
     textAlign: "center"
+  },
+  info: {
+    textAlign: "center",
+    color: "#555"
   },
   resultsList: {
     listStyle: "none",
@@ -93,15 +125,11 @@ const styles = {
   },
   resultItem: {
     padding: "10px",
-    borderBottom: "1px solid #ddd",
-    backgroundColor: "#fff",
-    borderRadius: "4px",
-    marginBottom: "8px"
+    borderBottom: "1px solid #ddd"
   },
   noResults: {
     textAlign: "center",
-    color: "#666",
-    fontStyle: "italic"
+    color: "#777"
   }
 };
 

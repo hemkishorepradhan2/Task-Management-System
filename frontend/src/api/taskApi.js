@@ -18,5 +18,11 @@ export const showtDeletedTasks = async () => {
   return res.data;
 };
 
-export const searchByTitle = (searchTitle) =>
-  axios.get(`${API_URL}/search?searchtaskname=${searchTitle}`);
+export const filterTasks = ({ search = "", status = "" } = {}) => {
+  const params = new URLSearchParams();
+
+  if (search) params.append("search", search);
+  if (status) params.append("status", status);
+
+  return axios.get(`${API_URL}/filter?${params.toString()}`);
+};
