@@ -5,6 +5,7 @@ import './index.css'
 import Tasks from './pages/Tasks';
 import TasksDeleted from './components/TasksDeleted';
 import Navbar from './components/Navbar';
+import Search from './components/Search';
 
 
 
@@ -14,6 +15,8 @@ function App() {
       <Navbar/>
       <Tasks />
       <TasksDeleted/>
+
+      <Search/>
     </div>
   );
 }

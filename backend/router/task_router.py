@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from database.session import get_db
-from schemas.task import CreateTask, UpdateTask, TaskResponse
+from schemas.task import CreateTask, TaskBase, UpdateTask, TaskResponse
 from crud.crud import create_task, read_tasks, read_task, update_task, soft_delete_task,getdeletedtasks,searchtaskbytitle
 from typing import List
 
@@ -14,8 +14,8 @@ router = APIRouter(
 def get_all_tasks(db: Session = Depends(get_db)):
     return read_tasks(db)
 
-@router.get("/search",response_model=List[TaskResponse])
-def search_title(searchtaskname:str,db:Session=Depends(get_db))->List[TaskResponse]:
+@router.get("/search",response_model=List[TaskBase])
+def search_title(searchtaskname:str,db:Session=Depends(get_db))->List[TaskBase]:
     
     result=searchtaskbytitle(db,search_task_title=searchtaskname.strip())
     if not result:

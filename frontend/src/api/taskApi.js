@@ -17,3 +17,6 @@ export const showtDeletedTasks = async () => {
   const res = await axios.get(`${API_URL}/showdeletedtasks`);
   return res.data;
 };
+
+export const searchByTitle = (searchTitle) =>
+  axios.get(`${API_URL}/search?searchtaskname=${searchTitle}`);
