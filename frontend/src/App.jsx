@@ -1,24 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './index.css'
-import Tasks from './pages/Tasks';
-import TasksDeleted from './components/TasksDeleted';
-import Navbar from './components/Navbar';
-import Search from './components/Search';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 
+import Tasks from "./pages/Tasks";
+import Search from "./pages/Search";
+import DeletedTaskList from "./pages/DeletedTaskList";
+import Home from "./pages/Home";
+import Footer from "./pages/Footer";
 
 
 function App() {
   return (
-    <div>
-      <Navbar/>
-      <Tasks />
-      <TasksDeleted/>
-
-      <Search/>
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Tasks />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/tasks" element={<Tasks/>} />
+        <Route path="/deleted" element={<DeletedTaskList/>} />
+      </Routes>
+      <Footer/>
+    </>
   );
 }
 
-export default App
+export default App;
