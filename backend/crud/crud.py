@@ -54,6 +54,14 @@ def getdeletedtasks(db:Session)->List[Task]:
     return db.query(Task).filter(Task.is_deleted == True).all()
 
 
+def searchtaskbytitle(db:Session,search_task_title)->List[Task]:
+    return db.query(Task).filter(
+    Task.title.ilike(f"%{search_task_title}%"),
+    Task.is_deleted == False  
+).all()
+   
+
+
 
 
 
